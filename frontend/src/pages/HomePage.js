@@ -220,10 +220,10 @@ export default function HomePage() {
         <section className="py-16 md:py-24 bg-white" data-testid="popular-tools-section">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-4">
-                Popular Tools
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 mb-4">
+                <span className="text-gradient">Popular</span> Tools
               </h2>
-              <p className="text-base text-slate-600">Quick access to our most used converters</p>
+              <p className="text-base text-gray-600">Quick access to our most used converters</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
