@@ -28,8 +28,8 @@ export const Navbar = () => {
     <nav
       className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 backdrop-blur-xl border-slate-100 shadow-sm'
-          : 'bg-white border-slate-100'
+          ? 'bg-white/80 backdrop-blur-xl border-gray-200 shadow-sm'
+          : 'bg-white border-gray-200'
       }`}
       data-testid="navbar"
     >
@@ -37,10 +37,12 @@ export const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <Link
             to="/"
-            className="flex items-center gap-2 font-bold text-xl text-slate-900 hover:text-primary transition-colors"
+            className="flex items-center gap-2 font-bold text-xl text-gray-900 hover:text-red-600 transition-colors"
             data-testid="navbar-logo"
           >
-            <FileText className="w-6 h-6 text-primary" strokeWidth={2.5} />
+            <div className="p-1.5 rounded-lg bg-gradient-to-br from-red-600 to-yellow-500">
+              <FileText className="w-5 h-5 text-white" strokeWidth={2.5} />
+            </div>
             <span>ConvertDocs</span>
           </Link>
 
@@ -50,10 +52,10 @@ export const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-sm font-medium transition-colors hover:text-red-600 ${
                   location.pathname === link.path
-                    ? 'text-primary'
-                    : 'text-slate-600'
+                    ? 'text-red-600'
+                    : 'text-gray-600'
                 }`}
                 data-testid={`nav-link-${link.name.toLowerCase()}`}
               >
@@ -65,7 +67,7 @@ export const Navbar = () => {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-slate-600 hover:text-primary transition-colors"
+            className="md:hidden p-2 text-gray-600 hover:text-red-600 transition-colors"
             data-testid="mobile-menu-button"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
