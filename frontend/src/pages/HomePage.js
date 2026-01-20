@@ -455,7 +455,7 @@ export default function HomePage() {
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 mb-4">
                 <span className="text-gradient">Popular</span> Tools
               </h2>
-              <p className="text-base text-gray-600">Quick access to our most used converters</p>
+              <p className="text-base text-gray-800">Quick access to our most used converters</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
