@@ -344,19 +344,27 @@ export default function HomePage() {
         )}
 
         {/* Trust Section */}
-        <section className="py-16 md:py-24 bg-slate-50" data-testid="trust-section">
+        <section className="py-16 md:py-24 bg-gray-50" data-testid="trust-section">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="bg-white p-12 rounded-3xl border border-slate-100">
-              <Shield className="w-12 h-12 text-primary mx-auto mb-6" strokeWidth={1.5} />
-              <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4">
-                Your Privacy is Protected
-              </h2>
-              <p className="text-base text-slate-600 leading-relaxed mb-2">
-                Files are automatically deleted after processing
-              </p>
-              <p className="text-base text-slate-600 leading-relaxed">
-                We never store or share your documents
-              </p>
+            <div className="bg-white p-12 rounded-3xl border-2 border-gray-200 shadow-xl relative overflow-hidden">
+              {/* Premium corner accents */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-500/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-yellow-500/20 to-transparent" />
+              
+              <div className="relative z-10">
+                <div className="inline-flex p-4 rounded-full bg-gradient-to-br from-red-600 to-yellow-500 mb-6">
+                  <Shield className="w-12 h-12 text-white" strokeWidth={1.5} />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+                  Your Privacy is <span className="text-gradient">Protected</span>
+                </h2>
+                <p className="text-base text-gray-600 leading-relaxed mb-2">
+                  Files are automatically deleted after processing
+                </p>
+                <p className="text-base text-gray-600 leading-relaxed">
+                  We never store or share your documents
+                </p>
+              </div>
             </div>
           </div>
         </section>
