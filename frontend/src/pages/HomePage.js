@@ -548,7 +548,7 @@ export default function HomePage() {
                         {post.category}
                       </span>
                       <h3 className="font-semibold text-gray-900 mt-4 mb-2">{post.title}</h3>
-                      <p className="text-sm text-gray-600 leading-relaxed mb-4">{post.excerpt}</p>
+                      <p className="text-sm text-gray-800 leading-relaxed mb-4">{post.excerpt}</p>
                       <Link
                         to={`/blog/${post.slug}`}
                         className="text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
