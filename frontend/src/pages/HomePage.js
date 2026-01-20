@@ -301,7 +301,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                    className="bg-white rounded-2xl border-2 border-gray-200 overflow-hidden hover:border-yellow-500 hover:shadow-xl transition-all duration-300"
                     data-testid={`blog-preview-${post.slug}`}
                   >
                     {post.image_url && (
@@ -312,14 +312,14 @@ export default function HomePage() {
                       />
                     )}
                     <div className="p-6">
-                      <span className="text-xs px-3 py-1 rounded-full bg-cyan-50 text-primary font-medium">
+                      <span className="text-xs px-3 py-1 rounded-full bg-yellow-100 text-gray-900 font-medium border border-yellow-300">
                         {post.category}
                       </span>
-                      <h3 className="font-semibold text-slate-900 mt-4 mb-2">{post.title}</h3>
-                      <p className="text-sm text-slate-600 leading-relaxed mb-4">{post.excerpt}</p>
+                      <h3 className="font-semibold text-gray-900 mt-4 mb-2">{post.title}</h3>
+                      <p className="text-sm text-gray-600 leading-relaxed mb-4">{post.excerpt}</p>
                       <Link
                         to={`/blog/${post.slug}`}
-                        className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+                        className="text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
                         data-testid={`blog-read-more-${post.slug}`}
                       >
                         Read More →
