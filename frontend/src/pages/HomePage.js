@@ -15,9 +15,11 @@ const API = `${BACKEND_URL}/api`;
 
 export default function HomePage() {
   const [blogPosts, setBlogPosts] = useState([]);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [showConversionModal, setShowConversionModal] = useState(false);
-  const [fileInfo, setFileInfo] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [conversionType, setConversionType] = useState('');
+  const [converting, setConverting] = useState(false);
+  const [convertedFile, setConvertedFile] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,64 +38,108 @@ export default function HomePage() {
   const getConversionOptions = (extension) => {
     const options = {
       'pdf': [
-        { label: 'Convert to Word', route: '/pdf-to-word', icon: FileText },
-        { label: 'Convert to JPG', route: '/pdf-to-jpg', icon: Image },
-        { label: 'Compress PDF', route: '/compress-pdf', icon: Minimize2 },
-        { label: 'Rotate PDF', route: '/rotate-pdf', icon: RotateCw },
+        { label: 'PDF to Word', value: 'pdf-to-word', endpoint: '/convert/pdf-to-word', icon: FileText, format: 'docx' },
+        { label: 'PDF to JPG', value: 'pdf-to-jpg', endpoint: '/convert/pdf-to-image', icon: Image, format: 'jpg' },
+        { label: 'Compress PDF', value: 'compress-pdf', endpoint: '/convert/compress-pdf', icon: Minimize2, format: 'pdf' },
       ],
       'docx': [
-        { label: 'Convert to PDF', route: '/word-to-pdf', icon: FileText },
+        { label: 'Word to PDF', value: 'word-to-pdf', endpoint: '/convert/word-to-pdf', icon: FileText, format: 'pdf' },
       ],
       'doc': [
-        { label: 'Convert to PDF', route: '/word-to-pdf', icon: FileText },
+        { label: 'Word to PDF', value: 'word-to-pdf', endpoint: '/convert/word-to-pdf', icon: FileText, format: 'pdf' },
       ],
       'jpg': [
-        { label: 'Convert to PDF', route: '/jpg-to-pdf', icon: FileText },
-        { label: 'Convert to PNG', route: '/png-to-jpg', icon: Image },
+        { label: 'JPG to PDF', value: 'jpg-to-pdf', endpoint: '/convert/image-to-pdf', icon: FileText, format: 'pdf' },
       ],
       'jpeg': [
-        { label: 'Convert to PDF', route: '/jpg-to-pdf', icon: FileText },
-        { label: 'Convert to PNG', route: '/png-to-jpg', icon: Image },
+        { label: 'JPEG to PDF', value: 'jpeg-to-pdf', endpoint: '/convert/image-to-pdf', icon: FileText, format: 'pdf' },
       ],
       'png': [
-        { label: 'Convert to PDF', route: '/png-to-pdf', icon: FileText },
-        { label: 'Convert to JPG', route: '/png-to-jpg', icon: Image },
+        { label: 'PNG to PDF', value: 'png-to-pdf', endpoint: '/convert/image-to-pdf', icon: FileText, format: 'pdf' },
+        { label: 'PNG to JPG', value: 'png-to-jpg', endpoint: '/convert/image-format', icon: Image, format: 'jpg' },
       ],
       'webp': [
-        { label: 'Convert to JPG', route: '/webp-to-jpg', icon: Image },
-        { label: 'Convert to PNG', route: '/webp-to-png', icon: Image },
+        { label: 'WEBP to JPG', value: 'webp-to-jpg', endpoint: '/convert/image-format', icon: Image, format: 'jpg' },
+        { label: 'WEBP to PNG', value: 'webp-to-png', endpoint: '/convert/image-format', icon: Image, format: 'png' },
       ],
       'xlsx': [
-        { label: 'Convert to PDF', route: '/excel-to-pdf', icon: FileText },
+        { label: 'Excel to PDF', value: 'excel-to-pdf', endpoint: '/convert/excel-to-pdf', icon: FileText, format: 'pdf' },
       ],
       'xls': [
-        { label: 'Convert to PDF', route: '/excel-to-pdf', icon: FileText },
+        { label: 'Excel to PDF', value: 'excel-to-pdf', endpoint: '/convert/excel-to-pdf', icon: FileText, format: 'pdf' },
       ],
     };
     
-    return options[extension] || [{ label: 'View All Tools', route: '/converter', icon: File }];
+    return options[extension] || [];
   };
 
   const handleFileSelect = (files) => {
     if (files.length > 0) {
-      const file = files[0];
-      const extension = file.name.split('.').pop().toLowerCase();
-      const conversionOptions = getConversionOptions(extension);
-      
-      setSelectedFiles(files);
-      setFileInfo({
-        name: file.name,
-        size: (file.size / 1024 / 1024).toFixed(2),
-        type: extension.toUpperCase(),
-        options: conversionOptions
-      });
-      setShowConversionModal(true);
+      setSelectedFile(files[0]);
+      setConversionType('');
+      setConvertedFile(null);
+      setError(null);
     }
   };
 
-  const handleConversionChoice = (route) => {
-    setShowConversionModal(false);
-    navigate(route, { state: { files: selectedFiles } });
+  const handleConvert = async () => {
+    if (!selectedFile || !conversionType) {
+      setError('Please select a conversion type');
+      return;
+    }
+
+    setConverting(true);
+    setError(null);
+
+    try {
+      const extension = selectedFile.name.split('.').pop().toLowerCase();
+      const options = getConversionOptions(extension);
+      const selectedOption = options.find(opt => opt.value === conversionType);
+
+      if (!selectedOption) {
+        throw new Error('Invalid conversion type');
+      }
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      
+      // Add output format for image conversions
+      if (selectedOption.endpoint === '/convert/image-format') {
+        formData.append('output_format', selectedOption.format);
+      }
+
+      const response = await axios.post(`${API}${selectedOption.endpoint}`, formData, {
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      setConvertedFile({
+        url,
+        filename: `converted_${selectedFile.name.split('.')[0]}.${selectedOption.format}`
+      });
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Conversion failed. Please try again.');
+    } finally {
+      setConverting(false);
+    }
+  };
+
+  const handleDownload = () => {
+    if (convertedFile) {
+      const link = document.createElement('a');
+      link.href = convertedFile.url;
+      link.download = convertedFile.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const resetConverter = () => {
+    setSelectedFile(null);
+    setConversionType('');
+    setConvertedFile(null);
+    setError(null);
   };
 
   const popularTools = [
