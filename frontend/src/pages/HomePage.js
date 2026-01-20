@@ -242,7 +242,7 @@ export default function HomePage() {
             <div className="text-center mt-12">
               <Link
                 to="/converter"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-yellow-500 text-white font-medium shadow-lg hover:shadow-xl transition-all hover:scale-105"
                 data-testid="view-all-tools-link"
               >
                 View All Tools
