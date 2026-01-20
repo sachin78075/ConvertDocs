@@ -16,6 +16,8 @@ const API = `${BACKEND_URL}/api`;
 export default function HomePage() {
   const [blogPosts, setBlogPosts] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [showConversionModal, setShowConversionModal] = useState(false);
+  const [fileInfo, setFileInfo] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,28 +33,67 @@ export default function HomePage() {
     }
   };
 
+  const getConversionOptions = (extension) => {
+    const options = {
+      'pdf': [
+        { label: 'Convert to Word', route: '/pdf-to-word', icon: FileText },
+        { label: 'Convert to JPG', route: '/pdf-to-jpg', icon: Image },
+        { label: 'Compress PDF', route: '/compress-pdf', icon: Minimize2 },
+        { label: 'Rotate PDF', route: '/rotate-pdf', icon: RotateCw },
+      ],
+      'docx': [
+        { label: 'Convert to PDF', route: '/word-to-pdf', icon: FileText },
+      ],
+      'doc': [
+        { label: 'Convert to PDF', route: '/word-to-pdf', icon: FileText },
+      ],
+      'jpg': [
+        { label: 'Convert to PDF', route: '/jpg-to-pdf', icon: FileText },
+        { label: 'Convert to PNG', route: '/png-to-jpg', icon: Image },
+      ],
+      'jpeg': [
+        { label: 'Convert to PDF', route: '/jpg-to-pdf', icon: FileText },
+        { label: 'Convert to PNG', route: '/png-to-jpg', icon: Image },
+      ],
+      'png': [
+        { label: 'Convert to PDF', route: '/png-to-pdf', icon: FileText },
+        { label: 'Convert to JPG', route: '/png-to-jpg', icon: Image },
+      ],
+      'webp': [
+        { label: 'Convert to JPG', route: '/webp-to-jpg', icon: Image },
+        { label: 'Convert to PNG', route: '/webp-to-png', icon: Image },
+      ],
+      'xlsx': [
+        { label: 'Convert to PDF', route: '/excel-to-pdf', icon: FileText },
+      ],
+      'xls': [
+        { label: 'Convert to PDF', route: '/excel-to-pdf', icon: FileText },
+      ],
+    };
+    
+    return options[extension] || [{ label: 'View All Tools', route: '/converter', icon: File }];
+  };
+
   const handleFileSelect = (files) => {
-    setSelectedFiles(files);
-    // Auto-detect file type and navigate to appropriate tool
     if (files.length > 0) {
       const file = files[0];
       const extension = file.name.split('.').pop().toLowerCase();
+      const conversionOptions = getConversionOptions(extension);
       
-      // Navigate based on file type
-      const routeMap = {
-        'pdf': '/pdf-to-word',
-        'docx': '/word-to-pdf',
-        'doc': '/word-to-pdf',
-        'jpg': '/jpg-to-pdf',
-        'jpeg': '/jpg-to-pdf',
-        'png': '/png-to-pdf',
-        'xlsx': '/excel-to-pdf',
-        'xls': '/excel-to-pdf',
-      };
-      
-      const route = routeMap[extension] || '/converter';
-      navigate(route, { state: { files } });
+      setSelectedFiles(files);
+      setFileInfo({
+        name: file.name,
+        size: (file.size / 1024 / 1024).toFixed(2),
+        type: extension.toUpperCase(),
+        options: conversionOptions
+      });
+      setShowConversionModal(true);
     }
+  };
+
+  const handleConversionChoice = (route) => {
+    setShowConversionModal(false);
+    navigate(route, { state: { files: selectedFiles } });
   };
 
   const popularTools = [
