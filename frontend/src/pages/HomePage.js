@@ -15,6 +15,8 @@ const API = `${BACKEND_URL}/api`;
 
 export default function HomePage() {
   const [blogPosts, setBlogPosts] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBlogPosts();
