@@ -253,13 +253,13 @@ export default function HomePage() {
         </section>
 
         {/* Features Grid */}
-        <section className="py-16 md:py-24 bg-slate-50" data-testid="features-section">
+        <section className="py-16 md:py-24 bg-gray-50" data-testid="features-section">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-4">
-                Why Choose ConvertDocs?
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 mb-4">
+                Why Choose <span className="text-gradient">ConvertDocs</span>?
               </h2>
-              <p className="text-base text-slate-600">Everything you need for document conversion</p>
+              <p className="text-base text-gray-600">Everything you need for document conversion</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -269,14 +269,14 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-white p-8 rounded-3xl border border-slate-100"
+                  className="bg-white p-8 rounded-3xl border-2 border-gray-200 hover:border-yellow-500 transition-all duration-300 shadow-md hover:shadow-xl"
                   data-testid={`feature-${feature.title.toLowerCase().replace(/ /g, '-')}`}
                 >
-                  <div className="p-3 rounded-xl bg-cyan-50 inline-block mb-4">
-                    <feature.icon className="w-6 h-6 text-primary" strokeWidth={2} />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 inline-block mb-4\">
+                    <feature.icon className="w-6 h-6 text-white" strokeWidth={2} />
                   </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{feature.description}</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
                 </motion.div>
               ))}
             </div>
