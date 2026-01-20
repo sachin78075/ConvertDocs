@@ -281,6 +281,151 @@ export default function HomePage() {
                   }}
                   toolName="homepage"
                 />
+
+                {/* Conversion Options - Show after file upload */}
+                {selectedFile && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-8 bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-200"
+                  >
+                    {/* File Info */}
+                    <div className="flex items-center gap-4 pb-6 border-b border-gray-200">
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800">
+                        <File className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-900 text-lg">{selectedFile.name}</p>
+                        <p className="text-sm text-gray-700">{selectedFile.type.toUpperCase()} • {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                      </div>
+                      <button
+                        onClick={resetConverter}
+                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        data-testid="reset-button"
+                      >
+                        <svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {!convertedFile ? (
+                      <>
+                        {/* Conversion Type Selector */}
+                        <div className="mt-6">
+                          <label className="block text-lg font-semibold text-gray-900 mb-4">
+                            Choose Conversion Type:
+                          </label>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {getConversionOptions(selectedFile.name.split('.').pop().toLowerCase()).map((option, index) => (
+                              <motion.button
+                                key={option.value}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                                onClick={() => setConversionType(option.value)}
+                                className={`flex items-center gap-4 p-4 rounded-2xl border-2 transition-all duration-300 text-left group ${
+                                  conversionType === option.value
+                                    ? 'border-red-500 bg-red-50 shadow-lg'
+                                    : 'border-gray-200 hover:border-yellow-500 hover:shadow-md'
+                                }`}
+                                data-testid={`conversion-option-${option.value}`}
+                              >
+                                <div className={`p-3 rounded-xl transition-all duration-300 ${
+                                  conversionType === option.value
+                                    ? 'bg-gradient-to-br from-red-600 to-yellow-600'
+                                    : 'bg-gradient-to-br from-gray-900 to-gray-800 group-hover:from-red-600 group-hover:to-yellow-600'
+                                }`}>
+                                  <option.icon className="w-5 h-5 text-white" strokeWidth={2} />
+                                </div>
+                                <div className="flex-1">
+                                  <p className={`font-semibold transition-colors ${
+                                    conversionType === option.value ? 'text-red-600' : 'text-gray-900 group-hover:text-red-600'
+                                  }`}>
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {conversionType === option.value && (
+                                  <CheckCircle2 className="w-6 h-6 text-red-600" />
+                                )}
+                              </motion.button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && (
+                          <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
+                            <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <p className="text-sm text-red-700 font-medium">{error}</p>
+                          </div>
+                        )}
+
+                        {/* Convert Button */}
+                        <div className="mt-6">
+                          <button
+                            onClick={handleConvert}
+                            disabled={!conversionType || converting}
+                            className="w-full h-14 px-8 rounded-full font-semibold text-lg bg-gradient-to-r from-red-600 to-yellow-500 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3"
+                            data-testid="convert-now-button"
+                          >
+                            {converting ? (
+                              <>
+                                <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Converting...
+                              </>
+                            ) : (
+                              <>
+                                <Zap className="w-6 h-6" />
+                                Convert Now
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      /* Download Section */
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.4 }}
+                        className="mt-6 text-center"
+                      >
+                        <div className="inline-flex p-4 rounded-full bg-green-100 mb-4">
+                          <CheckCircle2 className="w-12 h-12 text-green-600" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">Conversion Complete!</h3>
+                        <p className="text-gray-700 mb-6">Your file is ready to download</p>
+                        
+                        <div className="flex gap-4 justify-center">
+                          <button
+                            onClick={handleDownload}
+                            className="inline-flex items-center gap-3 h-14 px-8 rounded-full font-semibold text-lg bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
+                            data-testid="download-button"
+                          >
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download File
+                          </button>
+                          <button
+                            onClick={resetConverter}
+                            className="h-14 px-8 rounded-full font-semibold text-lg bg-white text-gray-900 border-2 border-gray-200 hover:bg-gray-50 transition-all"
+                            data-testid="convert-another-button"
+                          >
+                            Convert Another
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                )}
               </motion.div>
 
               <motion.div
