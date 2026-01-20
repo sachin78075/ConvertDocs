@@ -590,10 +590,10 @@ export default function HomePage() {
                 <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
                   Your Privacy is <span className="text-gradient">Protected</span>
                 </h2>
-                <p className="text-base text-gray-600 leading-relaxed mb-2">
+                <p className="text-base text-gray-800 leading-relaxed mb-2">
                   Files are automatically deleted after processing
                 </p>
-                <p className="text-base text-gray-600 leading-relaxed">
+                <p className="text-base text-gray-800 leading-relaxed">
                   We never store or share your documents
                 </p>
               </div>
