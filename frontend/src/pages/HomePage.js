@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   FileText, File, Image, ScanSearch, Combine, 
-  Minimize2, RotateCw, Shield, Zap, Globe, CheckCircle2
+  Minimize2, RotateCw, Shield, Zap, Globe, CheckCircle2, Sparkles
 } from 'lucide-react';
 import { ToolCard } from '../components/ToolCard';
+import { DropZone } from '../components/DropZone';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
