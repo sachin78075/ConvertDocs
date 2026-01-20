@@ -82,7 +82,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-slate-100 bg-white"
+            className="md:hidden border-t border-gray-200 bg-white"
             data-testid="mobile-menu"
           >
             <div className="px-4 py-4 space-y-3">
@@ -93,8 +93,8 @@ export const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     location.pathname === link.path
-                      ? 'bg-primary text-white'
-                      : 'text-slate-600 hover:bg-slate-50'
+                      ? 'bg-gradient-to-r from-red-600 to-yellow-500 text-white'
+                      : 'text-gray-600 hover:bg-gray-50'
                   }`}
                   data-testid={`mobile-nav-link-${link.name.toLowerCase()}`}
                 >
