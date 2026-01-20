@@ -2,7 +2,7 @@ import requests
 import os
 
 BACKEND_URL = os.environ.get('REACT_APP_BACKEND_URL', 'http://localhost:8001')
-API = f\"{BACKEND_URL}/api\"
+API = f"{BACKEND_URL}/api"
 
 sample_posts = [
     {
