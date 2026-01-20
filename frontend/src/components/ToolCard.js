@@ -22,7 +22,7 @@ export const ToolCard = ({ icon: Icon, title, description, path, category }) => 
           <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
             {title}
           </h3>
-          <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
+          <p className="text-sm text-gray-800 leading-relaxed">{description}</p>
         </div>
 
         {category && (
