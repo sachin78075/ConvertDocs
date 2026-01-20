@@ -147,49 +147,71 @@ export default function HomePage() {
       </Helmet>
 
       <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white" data-testid="hero-section">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-            <div className="text-center space-y-8">
+        {/* Hero Section with Dropzone */}
+        <section className="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white" data-testid="hero-section">
+          {/* Premium decorative elements */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-red-500/10 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-yellow-500/10 to-transparent rounded-full blur-3xl" />
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10">
+            <div className="space-y-12">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="space-y-4"
+                className="text-center space-y-6"
               >
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-600 to-yellow-500 text-white text-sm font-medium mb-4">
+                  <Sparkles className="w-4 h-4" />
+                  <span>Premium Document Conversion</span>
+                </div>
+                
+                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900">
                   ConvertDocs – Online <br className="hidden sm:block" />
                   <span className="text-gradient">Document Converter</span>
                 </h1>
-                <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
                   Convert PDF, Word, Excel, Images & More Instantly
                 </p>
               </motion.div>
 
+              {/* Homepage Dropzone */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex justify-center"
+                className="max-w-4xl mx-auto"
               >
-                <Link
-                  to="/converter"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 rounded-full font-medium shadow-lg shadow-cyan-900/20 transition-all hover:scale-[1.02] inline-flex items-center justify-center"
-                  data-testid="hero-cta-button"
-                >
-                  Convert Now
-                </Link>
+                <DropZone 
+                  onFileSelect={handleFileSelect}
+                  accept={{
+                    'application/pdf': ['.pdf'],
+                    'application/msword': ['.doc'],
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+                    'application/vnd.ms-excel': ['.xls'],
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+                    'image/*': ['.jpg', '.jpeg', '.png', '.webp']
+                  }}
+                  toolName="homepage"
+                />
               </motion.div>
 
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-sm text-slate-500"
-                data-testid="hero-subtext"
+                className="text-center space-y-4"
               >
-                No signup required
-              </motion.p>
+                <p className="text-sm text-gray-500" data-testid="hero-subtext">
+                  No signup required • Secure & Private • Free Forever
+                </p>
+                <Link
+                  to="/converter"
+                  className="inline-flex items-center text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
+                >
+                  Or browse all 25+ tools →
+                </Link>
+              </motion.div>
             </div>
           </div>
         </section>
