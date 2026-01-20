@@ -508,7 +508,7 @@ export default function HomePage() {
                     <feature.icon className="w-6 h-6 text-white" strokeWidth={2} />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+                  <p className="text-sm text-gray-800 leading-relaxed">{feature.description}</p>
                 </motion.div>
               ))}
             </div>
