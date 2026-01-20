@@ -434,12 +434,12 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="text-center space-y-4"
               >
-                <p className="text-sm text-gray-500" data-testid="hero-subtext">
+                <p className="text-sm text-gray-700 font-medium" data-testid="hero-subtext">
                   No signup required • Secure & Private • Free Forever
                 </p>
                 <Link
                   to="/converter"
-                  className="inline-flex items-center text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
+                  className="inline-flex items-center text-sm text-red-600 hover:text-red-700 font-semibold transition-colors"
                 >
                   Or browse all 25+ tools →
                 </Link>
