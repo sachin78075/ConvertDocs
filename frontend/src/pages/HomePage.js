@@ -31,6 +31,30 @@ export default function HomePage() {
     }
   };
 
+  const handleFileSelect = (files) => {
+    setSelectedFiles(files);
+    // Auto-detect file type and navigate to appropriate tool
+    if (files.length > 0) {
+      const file = files[0];
+      const extension = file.name.split('.').pop().toLowerCase();
+      
+      // Navigate based on file type
+      const routeMap = {
+        'pdf': '/pdf-to-word',
+        'docx': '/word-to-pdf',
+        'doc': '/word-to-pdf',
+        'jpg': '/jpg-to-pdf',
+        'jpeg': '/jpg-to-pdf',
+        'png': '/png-to-pdf',
+        'xlsx': '/excel-to-pdf',
+        'xls': '/excel-to-pdf',
+      };
+      
+      const route = routeMap[extension] || '/converter';
+      navigate(route, { state: { files } });
+    }
+  };
+
   const popularTools = [
     {
       icon: FileText,
